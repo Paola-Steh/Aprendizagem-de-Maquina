@@ -1,1 +1,112 @@
-
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyNUXLeH/xta0/T0k/qb3VOq",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Paola-Steh/Aprendizagem-de-Maquina/blob/main/DeveresDeCasa/Dever-03\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "u9xXMbzYowzW"
+      },
+      "outputs": [],
+      "source": [
+        "import csv\n",
+        "\n",
+        "# 1. Criar o arquivo dados.csv\n",
+        "def criar_arquivo_csv():\n",
+        "    \"\"\"\n",
+        "    Cria um arquivo CSV chamado dados.csv com os dados fornecidos.\n",
+        "    \"\"\"\n",
+        "    dados = [\n",
+        "        [\"Nome\", \"Idade\"],\n",
+        "        [\"Ana\", 25],\n",
+        "        [\"Bruno\", 30],\n",
+        "        [\"Carla\", 22],\n",
+        "        [\"Daniel\", 28],\n",
+        "        [\"Eduardo\", 35]\n",
+        "    ]\n",
+        "    with open(\"dados.csv\", \"w\", newline=\"\") as arquivo_csv:\n",
+        "        escritor = csv.writer(arquivo_csv)\n",
+        "        escritor.writerows(dados)\n",
+        "\n",
+        "# 2. Ler o arquivo dados.csv e armazenar os dados em uma lista\n",
+        "def ler_arquivo_csv():\n",
+        "    \"\"\"\n",
+        "    Lê o arquivo dados.csv e armazena os dados em uma lista.\n",
+        "\n",
+        "    Returns:\n",
+        "        list: Uma lista de listas, onde cada sublista representa uma linha do arquivo CSV.\n",
+        "    \"\"\"\n",
+        "    dados = []\n",
+        "    with open(\"dados.csv\", \"r\") as arquivo_csv:\n",
+        "        leitor = csv.reader(arquivo_csv)\n",
+        "        for linha in leitor:\n",
+        "            dados.append(linha)\n",
+        "    return dados\n",
+        "\n",
+        "# Função principal\n",
+        "def main():\n",
+        "    \"\"\"\n",
+        "    Função principal que executa o programa.\n",
+        "    \"\"\"\n",
+        "    criar_arquivo_csv()\n",
+        "    dados = ler_arquivo_csv()\n",
+        "\n",
+        "    nome_digitado = input(\"Digite um nome: \")\n",
+        "\n",
+        "    encontrado = False\n",
+        "    maior_idade = 0\n",
+        "    nome_mais_velho = \"\"\n",
+        "\n",
+        "    # Encontrar a maior idade e o nome da pessoa mais velha\n",
+        "    for i in range(1, len(dados)):  # Começar do índice 1 para ignorar o cabeçalho\n",
+        "        idade = int(dados[i][1])\n",
+        "        if idade > maior_idade:\n",
+        "            maior_idade = idade\n",
+        "            nome_mais_velho = dados[i][0]\n",
+        "\n",
+        "    # Verificar se o nome digitado está na lista\n",
+        "    for i in range(1, len(dados)):  # Começar do índice 1 para ignorar o cabeçalho\n",
+        "        if dados[i][0] == nome_digitado:\n",
+        "            encontrado = True\n",
+        "            idade = int(dados[i][1])\n",
+        "            if nome_digitado == nome_mais_velho:\n",
+        "                print(f\"{nome_digitado} tem {idade} anos, é a pessoa mais velha da lista.\")\n",
+        "            else:\n",
+        "                print(f\"{nome_digitado} tem {idade} anos, não é a pessoa mais velha da lista.\")\n",
+        "            break\n",
+        "\n",
+        "    if not encontrado:\n",
+        "        print(\"Nome não encontrado.\")\n",
+        "\n",
+        "if __name__ == \"__main__\":\n",
+        "    main()\n",
+        ""
+      ]
+    }
+  ]
+}
