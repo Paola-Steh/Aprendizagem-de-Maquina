@@ -1,0 +1,133 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOxgrw7e8ttOYh2cXzSWFYe",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Paola-Steh/Aprendizagem-de-Maquina/blob/main/DeveresDeCasa/Dever-04\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import pandas as pd\n",
+        "\n",
+        "lista_frutas = {\n",
+        "\n",
+        "'Frutas': [\"maçã\", \"banana\", \"laranja\", \"uva\", \"maçã\", \"melão\", \"mamão\", \"banana\"],\n",
+        "\n",
+        "'quantidade': [3, 7, 2.3, 4, 5, 40, 73, 8]\n",
+        "\n",
+        "}\n",
+        "\n",
+        "myvar = pd.DataFrame(lista_frutas)\n",
+        "\n",
+        "print (myvar)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "1RHrP1PDa4HL",
+        "outputId": "19725b87-371b-475f-c405-4f7f93c6335a"
+      },
+      "execution_count": 7,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "    Frutas  quantidade\n",
+            "0     maçã         3.0\n",
+            "1   banana         7.0\n",
+            "2  laranja         2.3\n",
+            "3      uva         4.0\n",
+            "4     maçã         5.0\n",
+            "5    melão        40.0\n",
+            "6    mamão        73.0\n",
+            "7   banana         8.0\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import random\n",
+        "import pandas as pd\n",
+        "\n",
+        "# Passo 1: Criar a lista de frutas\n",
+        "frutas = [\"maçã\", \"banana\", \"laranja\", \"uva\", \"maçã\", \"melão\", \"mamão\", \"banana\"]\n",
+        "\n",
+        "# Passo 2: Gerar quantidades aleatórias para as frutas e armazenar em um dicionário\n",
+        "quantidades = {fruta: random.randint(0, 100) for fruta in frutas}\n",
+        "\n",
+        "# Passo 3: Gravar as frutas e suas quantidades no arquivo \"minhas_frutas.txt\"\n",
+        "with open(\"minhas_frutas.txt\", \"w\") as f:\n",
+        "    for fruta, quantidade in quantidades.items():\n",
+        "        f.write(f\"{fruta},{quantidade}\\n\")\n",
+        "\n",
+        "# Passo 4: Ler o arquivo e calcular a soma das quantidades das frutas repetidas\n",
+        "frutas_dict = {}\n",
+        "with open(\"minhas_frutas.txt\", \"r\") as f:\n",
+        "    for linha in f:\n",
+        "        fruta, quantidade = linha.strip().split(\",\")\n",
+        "        quantidade = int(quantidade)\n",
+        "\n",
+        "        # Somar as quantidades das frutas repetidas\n",
+        "        if fruta in frutas_dict:\n",
+        "            frutas_dict[fruta] += quantidade\n",
+        "        else:\n",
+        "            frutas_dict[fruta] = quantidade\n",
+        "\n",
+        "# Passo 5: Criar o DataFrame\n",
+        "df = pd.DataFrame(list(frutas_dict.items()), columns=[\"Fruta\", \"Quantidade\"])\n",
+        "\n",
+        "# Exibir o DataFrame\n",
+        "print(df)\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "ysiXL_tQcLoh",
+        "outputId": "618abfb2-499a-41f7-9994-957654e1cfbd"
+      },
+      "execution_count": 8,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "     Fruta  Quantidade\n",
+            "0     maçã          34\n",
+            "1   banana          99\n",
+            "2  laranja          99\n",
+            "3      uva          99\n",
+            "4    melão          16\n",
+            "5    mamão          30\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
