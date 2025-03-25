@@ -1,0 +1,150 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyNr4XVS0qu8Er9oWLv8DiTy",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Paola-Steh/Aprendizagem-de-Maquina/blob/main/DeveresDeCasa/Dever-05\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import pandas as pd\n",
+        "from sklearn.model_selection import train_test_split\n",
+        "from sklearn.linear_model import LogisticRegression\n",
+        "from sklearn.metrics import accuracy_score\n",
+        "\n",
+        "# 1. Criar um arquivo CSV com 10 entradas conhecidas\n",
+        "data = {\n",
+        "    'IMC': [30.1, 25.5, 32.8, 28.0, 35.2, 22.1, 29.5, 31.7, 26.3, 33.9],\n",
+        "    'Obeso': [True, False, True, False, True, False, False, True, False, True]\n",
+        "}\n",
+        "df = pd.DataFrame(data)\n",
+        "nome_arquivo_csv = 'dados_imc.csv'\n",
+        "df.to_csv(nome_arquivo_csv, index=False)\n",
+        "print(f\"Arquivo CSV '{nome_arquivo_csv}' criado com sucesso.\")\n",
+        "print(\"\\nConteúdo do arquivo CSV:\")\n",
+        "print(df)\n",
+        "\n",
+        "# 2. Treinar uma máquina\n",
+        "\n",
+        "# Carregar os dados do arquivo CSV\n",
+        "df_treino = pd.read_csv(nome_arquivo_csv)\n",
+        "\n",
+        "# Separar as features (IMC) do target (Obeso)\n",
+        "X = df_treino[['IMC']]\n",
+        "y = df_treino['Obeso']\n",
+        "\n",
+        "# Dividir os dados em conjuntos de treino e teste (embora tenhamos poucos dados, é boa prática)\n",
+        "X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)\n",
+        "\n",
+        "# Escolher um modelo de classificação (Regressão Logística é uma boa escolha para binário)\n",
+        "model = LogisticRegression()\n",
+        "\n",
+        "# Treinar o modelo com os dados de treino\n",
+        "model.fit(X_train, y_train)\n",
+        "\n",
+        "print(\"\\nModelo treinado com sucesso!\")\n",
+        "\n",
+        "# 3. Perguntar à máquina se um dado IMC (fora do range das entradas) é obeso ou não\n",
+        "\n",
+        "# Exemplo de IMC fora do range dos dados de treino\n",
+        "novo_imc = 27.5  # Este valor está dentro do range, mas vamos usar um exemplo mais extremo depois\n",
+        "novo_imc_fora_range = 40.0\n",
+        "\n",
+        "# Fazer a previsão para o novo IMC\n",
+        "# É importante formatar o novo dado como um DataFrame para que o modelo possa prever\n",
+        "novo_dado = pd.DataFrame({'IMC': [novo_imc]})\n",
+        "previsao = model.predict(novo_dado)\n",
+        "\n",
+        "novo_dado_fora_range = pd.DataFrame({'IMC': [novo_imc_fora_range]})\n",
+        "previsao_fora_range = model.predict(novo_dado_fora_range)\n",
+        "\n",
+        "# Obter a probabilidade da previsão (opcional, mas útil para entender a confiança)\n",
+        "probabilidade = model.predict_proba(novo_dado)\n",
+        "probabilidade_fora_range = model.predict_proba(novo_dado_fora_range)\n",
+        "\n",
+        "print(f\"\\nPara um IMC de {novo_imc}:\")\n",
+        "if previsao[0]:\n",
+        "    print(\"A máquina prevê que a pessoa é obesa.\")\n",
+        "else:\n",
+        "    print(\"A máquina prevê que a pessoa não é obesa.\")\n",
+        "print(f\"Probabilidade: {probabilidade[0]}\")\n",
+        "\n",
+        "print(f\"\\nPara um IMC de {novo_imc_fora_range}:\")\n",
+        "if previsao_fora_range[0]:\n",
+        "    print(\"A máquina prevê que a pessoa é obesa.\")\n",
+        "else:\n",
+        "    print(\"A máquina prevê que a pessoa não é obesa.\")\n",
+        "print(f\"Probabilidade: {probabilidade_fora_range[0]}\")\n",
+        "\n",
+        "# Avaliação do modelo (opcional, mas recomendado)\n",
+        "y_pred = model.predict(X_test)\n",
+        "accuracy = accuracy_score(y_test, y_pred)\n",
+        "print(f\"\\nAcurácia do modelo nos dados de teste: {accuracy:.2f}\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Hv56AaPJYdmu",
+        "outputId": "70221063-dbef-4b58-e6f7-f7b088e54947"
+      },
+      "execution_count": 1,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Arquivo CSV 'dados_imc.csv' criado com sucesso.\n",
+            "\n",
+            "Conteúdo do arquivo CSV:\n",
+            "    IMC  Obeso\n",
+            "0  30.1   True\n",
+            "1  25.5  False\n",
+            "2  32.8   True\n",
+            "3  28.0  False\n",
+            "4  35.2   True\n",
+            "5  22.1  False\n",
+            "6  29.5  False\n",
+            "7  31.7   True\n",
+            "8  26.3  False\n",
+            "9  33.9   True\n",
+            "\n",
+            "Modelo treinado com sucesso!\n",
+            "\n",
+            "Para um IMC de 27.5:\n",
+            "A máquina prevê que a pessoa não é obesa.\n",
+            "Probabilidade: [0.90073248 0.09926752]\n",
+            "\n",
+            "Para um IMC de 40.0:\n",
+            "A máquina prevê que a pessoa é obesa.\n",
+            "Probabilidade: [3.78507735e-05 9.99962149e-01]\n",
+            "\n",
+            "Acurácia do modelo nos dados de teste: 1.00\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
